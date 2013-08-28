@@ -45,3 +45,6 @@ set autoindent
 " Disable swap files
 set noswapfile
 
+" Show line numbers
+set number
+
