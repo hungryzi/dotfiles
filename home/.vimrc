@@ -42,3 +42,6 @@ set autoindent
 " Map NERDTreeToggle
 :nmap <C-o> :NERDTreeToggle<CR>
 
+" Disable swap files
+set noswapfile
+
