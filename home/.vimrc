@@ -22,7 +22,7 @@ filetype plugin indent on     " required! for vundle
 autocmd vimenter * if !argc() | NERDTree | endif
 
 " Colorscheme
-colorscheme railscasts
+colorscheme slate
 
 " Set font size to 12
 set guifont=Monaco:h12
