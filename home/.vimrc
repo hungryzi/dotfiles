@@ -13,6 +13,7 @@ Bundle 'tpope/vim-bundler'
 Bundle 'scrooloose/nerdtree'
 Bundle 'kien/ctrlp.vim'
 Bundle 'flazz/vim-colorschemes'
+Bundle 'bling/vim-airline'
 
 " Perform indentation based on filetype
 filetype plugin indent on     " required! for vundle
