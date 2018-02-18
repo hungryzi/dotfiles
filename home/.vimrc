@@ -30,6 +30,7 @@ Plugin 'tpope/vim-haml'
 Plugin 'benmills/vimux'
 Plugin 'groenewege/vim-less'
 Plugin 'ngmy/vim-rubocop'
+Plugin 'powerline/powerline'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -121,7 +122,7 @@ set statusline+=[%c,%l] "cursor column
 set statusline+=\ %P    "percent through file
 
 " put useful info in status bar
-set statusline=%F%m%r%h%w\ %{fugitive#statusline()}\ [%l,%c]\ [%L,%p%%]
+" set statusline=%F%m%r%h%w\ %{fugitive#statusline()}\ [%l,%c]\ [%L,%p%%]
 set statusline+=%#warningmsg#
 set statusline+=%*
 
@@ -176,8 +177,6 @@ augroup trailing_whitespace
   autocmd FileType ruby,yaml,javascript,css,scss,haml,eco,coffee,python,yaml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 augroup END
 
-autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
-
 " Enable spell check in git commit messages
 au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
 
@@ -224,12 +223,66 @@ nnoremap <silent><Leader>t :NERDTreeToggle<cr>
 nnoremap <silent><Leader>f :NERDTreeFind<cr>
 
 " rspec.vim
-let g:rspec_command = 'Dispatch bin/rspec {spec}'
+let g:rspec_command = "Dispatch make rspec {spec}"
+nnoremap <Leader>e :call RunCurrentSpecFile()<CR>
 nnoremap <Leader>s :call RunNearestSpec()<CR>
 nnoremap <Leader>l :call RunLastSpec()<CR>
 
 " Ctrl-P
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-let g:ctrlp_working_path_mode = 'c'
+let g:ctrlp_working_path_mode = 'ra'
+
+" Search
+nnoremap <C-f> :Ggr <cword><CR> | cw | redraw!
+autocmd QuickFixCmdPost *grep* cwindow
+
+" JSX
+let g:jsx_ext_required = 0
+
+" Quit file
+noremap <leader>q :q<cr>
+
+" Toggle paste mode
+set pastetoggle=<leader>z
+
+" Change pane
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+
+" Save file
+" nnoremap <leader>s :w<cr>
+" inoremap <leader>s <C-c>:w<cr>
+
+" Format on save
+autocmd BufWritePre *.js undojoin | Neoformat
+" autocmd BufWritePre *.rb undojoin | Neoformat
+
+" Neoformat
+let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_enabled_ruby = ['rubocop']
+let g:neoformat_only_msg_on_error = 1
+
+" ESC delay
+set timeoutlen=1000 ttimeoutlen=0
+
+" Powerline
+let g:Powerline_symbols = 'fancy'
+
+" Move lines
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" JS folding
+augroup javascript_folding
+  au!
+  au FileType javascript setlocal foldmethod=syntax
+augroup END
+autocmd Syntax * normal zR
