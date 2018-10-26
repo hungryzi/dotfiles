@@ -23,7 +23,7 @@ brew install findutils
 # # Install GNU `sed`, overwriting the built-in `sed`.
 brew install gnu-sed --with-default-names
 
-brew install tree stow
+brew install tree stow the_silver_searcher
 
 # Symlink dotfiles
 cd ~/dotfiles && stow home

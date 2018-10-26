@@ -66,6 +66,7 @@ call neomake#configure#automake('nrwi', 500)
 
 " Fuzzy search with Ctrl-P
 nnoremap <C-p> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'ag -l --nocolor -g ""'
 
 " Ag searches from project root
 let g:ag_working_path_mode="r"
