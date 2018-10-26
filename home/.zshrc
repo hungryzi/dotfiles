@@ -135,5 +135,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 alias vim='nvim'
 alias vimdiff='nvim -d'
+alias vimrc='vim ~/.vimrc'
 export EDITOR=nvim
 fpath=(/usr/local/share/zsh-completions $fpath)
