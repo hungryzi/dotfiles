@@ -30,7 +30,7 @@ Plug 'rking/ag.vim'
 Plug 'Chun-Yang/vim-action-ag'
 
 " Directory
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -93,7 +93,8 @@ let test#strategy = "make"
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " Tree
-map <C-n> :NERDTreeToggle<CR>
+map <C-t> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeFind<CR>
 
 "General
 syntax on
