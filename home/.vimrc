@@ -18,6 +18,7 @@ Plug 'kchmck/vim-coffee-script'
 
 " Syntax
 Plug 'neomake/neomake'
+Plug 'tomlion/vim-solidity'
 
 " Test
 Plug 'janko-m/vim-test'
