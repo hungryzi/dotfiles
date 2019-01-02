@@ -138,3 +138,10 @@ alias vimdiff='nvim -d'
 alias vimrc='vim ~/.vimrc'
 export EDITOR=nvim
 fpath=(/usr/local/share/zsh-completions $fpath)
+
+# Find your Python User Base path (where Python --user will install packages/scripts)
+USER_BASE_PATH=$(python -m site --user-base)
+export PATH=$PATH:$USER_BASE_PATH/bin
+
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
