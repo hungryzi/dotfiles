@@ -47,6 +47,11 @@ call plug#end()
 " Run NeoMake on read and write operations
 autocmd! BufReadPost,BufWritePost * Neomake
 
+" Run Neomake when I save any buffer
+augroup localneomake
+  autocmd! BufWritePost * Neomake
+augroup END
+
 " Disable inherited syntastic
 let g:syntastic_mode_map = {
   \ "mode": "passive",
