@@ -1,25 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/zvu/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-
-PROFILE="$ITERM_PROFILE"
-if [ $PROFILE = "Default" ]; then
-  ZSH_THEME="crunch"
-  BASE16_SHELL="$HOME/.config/base16-shell/"
-  [ -n "$PS1" ] && \
-      [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-          eval "$("$BASE16_SHELL/profile_helper.sh")"
-else
-  ZSH_THEME=""
-fi
-
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
@@ -67,18 +48,6 @@ fi
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-  osx
-)
-
-source $ZSH/oh-my-zsh.sh
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -99,7 +68,12 @@ source $ZSH/oh-my-zsh.sh
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-export NVM_DIR="$HOME/.nvm"
+# Use pure
+fpath+=$HOME/.zsh/pure
+
+autoload -U promptinit; promptinit
+prompt pure
+
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # place this after nvm initialization!
@@ -124,7 +98,16 @@ load-nvmrc() {
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
+# Fuzzy search
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# auto suggestion
+# source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+autoload -U compinit
+compinit
+
+# fpath=(/usr/local/share/zsh-completions $fpath)
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
@@ -132,18 +115,20 @@ export PATH="$PATH:$HOME/.rvm/bin"
 alias vim='nvim'
 alias vimdiff='nvim -d'
 alias vimrc='vim ~/.vimrc'
-alias zshrc="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
+alias zshrc='vim ~/.zshrc'
+alias hosts='sudo vim /etc/hosts'
 
-export EDITOR=nvim
-fpath=(/usr/local/share/zsh-completions $fpath)
+# editors
+export VISUAL=nvim
+export EDITOR="$VISUAL"
 
-# Find your Python User Base path (where Python --user will install packages/scripts)
-USER_BASE_PATH=$(python -m site --user-base)
-export PATH=$PATH:$USER_BASE_PATH/bin
-
-# Docker
-export PATH=$PATH:~/.docker
-
+# pyenv
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# heroku autocomplete setup
+HEROKU_AC_ZSH_SETUP_PATH=/Users/hungryzi/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/hungryzi/.sdkman"
+[[ -s "/Users/hungryzi/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/hungryzi/.sdkman/bin/sdkman-init.sh"

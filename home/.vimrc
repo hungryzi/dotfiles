@@ -6,12 +6,13 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Editing
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/denite.nvim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-rsi'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'nathangrigg/vim-beancount'
 
 " Frameworks & languages
 Plug 'tpope/vim-rails'
@@ -39,13 +40,16 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" Themes
-Plug 'chriskempson/base16-vim'
+" Colorscheme
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 call plug#end()
 
 " Run NeoMake on read and write operations
-autocmd! BufReadPost,BufWritePost * Neomake
+" autocmd! BufReadPost,BufWritePost * Neomake
+
+" Syntax checking
+let g:syntastic_ruby_checkers = ['rubocop', 'mri']
 
 " Run Neomake when I save any buffer
 augroup localneomake
@@ -58,9 +62,9 @@ let g:syntastic_mode_map = {
   \ "active_filetypes": [],
   \ "passive_filetypes": [] }
 
-let g:neomake_serialize = 1
-let g:neomake_serialize_abort_on_error = 0
-let g:neomake_open_list = 2
+" let g:neomake_serialize = 1
+" let g:neomake_serialize_abort_on_error = 1
+" let g:neomake_open_list = 2
 
 let g:neomake_black_maker = {
     \ 'exe': 'black',
@@ -96,14 +100,14 @@ endfunction
 nnoremap <leader>fix :call FixThis()<CR>
 
 " When writing a buffer (no delay).
-call neomake#configure#automake('w')
+" call neomake#configure#automake('w')
 " When writing a buffer (no delay), and on normal mode changes (after 750ms).
-call neomake#configure#automake('nw', 750)
+" call neomake#configure#automake('nw', 750)
 " When reading a buffer (after 1s), and when writing (no delay).
-call neomake#configure#automake('rw', 1000)
+" call neomake#configure#automake('rw', 1000)
 " Full config: when writing or reading a buffer, and on changes in insert and
 " normal mode (after 1s; no delay when writing).
-call neomake#configure#automake('nrwi', 500)
+" call neomake#configure#automake('nrwi', 500)
 
 if empty($PYENV_ROOT)
   let s:pyenv_root = $HOME . '/.pyenv'
@@ -123,7 +127,8 @@ let g:python3_host_prog = '/Users/zvu/.pyenv/versions/neovim3/bin/python'
 
 " Fuzzy search with Ctrl-P
 nnoremap <C-p> :FZF<CR>
-let $FZF_DEFAULT_COMMAND = 'ag -l --nocolor -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+
 
 " Ag searches from project root
 let g:ag_working_path_mode="r"
@@ -134,14 +139,12 @@ nmap <C-f> <Plug>AgActionWord
 vmap <C-f> <Plug>AgActionVisual
 
 " Theme
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-tomorrow-night
+colorscheme dracula
 
 " Completion
+let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
+
+let g:deoplete#auto_complete=1
 let g:deoplete#enable_at_startup = 1
 
 " Test
@@ -160,6 +163,18 @@ if has('persistent_undo')      "check if your vim version supports it
   set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
 endif
 
+" Paste toggle
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
 "General
 syntax on
 set number
@@ -177,8 +192,9 @@ set foldmethod=manual
 set autoindent
 set cindent
 set tabstop=2
+set softtabstop=2
 set expandtab
-set shiftwidth=4
+set shiftwidth=2
 set smarttab
 "Search
 set hlsearch
@@ -186,3 +202,8 @@ set incsearch
 set ignorecase
 set smartcase
 set diffopt+=iwhite
+" Undo
+set undofile " Maintain undo history between sessions
+set undodir=~/.vim/undodir
+" Allow unsaved buffers while navigating
+set hidden

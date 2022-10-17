@@ -45,6 +45,7 @@ ln -s ~/.config/base16-shell/scripts/base16-tomorrow-night.sh ~/.base16_theme
 # Neovim
 brew install neovim
 pip3 install neovim
+mkdir ~/.vim/undodir
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
