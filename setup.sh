@@ -34,13 +34,17 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ~/.tmux/plugins/tpm/bin/install_plugins
 
 # Zsh
-brew install zsh zsh-completions
-chsh -s $(which zsh)
-git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+# brew install zsh zsh-completions
+# chsh -s $(which zsh)
+# git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
 # Base16 colorscheme
-git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
-ln -s ~/.config/base16-shell/scripts/base16-tomorrow-night.sh ~/.base16_theme
+# git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+# ln -s ~/.config/base16-shell/scripts/base16-tomorrow-night.sh ~/.base16_theme
+
+# pyenv (we need Python3 for Neovim auto-completion)
+brew install pyenv
+brew install pyenv-virtualenv
 
 # Neovim
 brew install neovim
@@ -53,8 +57,8 @@ nvim +'PlugInstall --sync' +qa
 
 # Ruby: rvm...
 \curl -sSL https://get.rvm.io | bash --auto-dotfiles
-rvm install 2.4
-rvm use 2.4 --default && gem install tmuxinator
+rvm install 2.7
+rvm use 2.7 --default && gem install tmuxinator
 
 # JavaScript: nvm, yarn...
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
